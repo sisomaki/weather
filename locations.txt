@@ -1,0 +1,3 @@
+CA/San_Fransisco, 0, 0
+Finland/Helsinki, 0, 20
+Finland/Oulu, 12, 5

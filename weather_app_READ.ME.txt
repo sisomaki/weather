@@ -1,0 +1,53 @@
+virtualbox with 2 network adapters, 2 local, 1 internet
+create user account that has sudo rights
+base line OS is based on vanilla centos7 minimal
+
+PREREQUISITES:
+update system: sudo yum update
+install wget: sudo yum install wget
+check version of python: python -v [should be 2.7.x]
+install epel repository
+-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+-rpm -ivh epel-release-7-8.noarch.rpm
+install pip for python: sudo yum install python-pip
+update pip: sudo pip install --upgrade pip
+install 'requests' library: sudo pip install requests
+
+
+unzip and untar the code package in your local directory
+tar -zxvf weather.tar.gz -C ./weather_app
+
+to run the app:
+cd ./code/weather
+./wu_prog.py -s <monitoring schedule in seconds> 
+
+output and alerts are written into: userAlert.log
+debug log goes to: wu_prog.log
+
+to edit the weather locations and temps you want to monitor
+edit locations.txt
+you can have any number of locations. format is:
+<country or state>/<city>, <low temp>, <high temp>
+for example:
+CA/San Fransisco, 0, 20
+
+If weather prediction on any of the 5 days is predicted to be less than low temp and/or
+higher than high temp limits for the location an alert is generated to userAlerts.log
+
+NOTES:
+Weather underground free tier allows 10 weather requests per minute to the server. 
+Key file (wunderground.key) allows you to connect to Weather Underground service
+The program wont allow shorter than 60 second weather report polling interval.
+-This is to try to avoid receiving 'denial of service' response from Weather Underground
+
+IMPROVEMENTS:
+a lot of checks for user errors and response codes from the wunderground service are missing
+code is partially testable using unit tests
+
+you could also easily split this into multiple python scripts and use cron jobs to run
+the app instead of building it into a single python 'application'
+
+adding twitter direct messaging (using Tweepy) could add value instead of writing alerts
+to file. This area could easily be improved and more general app be developed
+
+
